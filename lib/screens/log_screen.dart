@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import '../models/meal_log.dart';
 import '../theme.dart'; // for the green color
+import '../notifications.dart';
 
 class LogScreen extends StatefulWidget {
   final MealType initialType;
@@ -34,6 +35,9 @@ class _LogScreenState extends State<LogScreen> {
     );
     final box = Hive.box('meals');
     await box.put(log.id, log.toMap());
+    if (log.isLate) {
+      await showLateWarning(TimeOfDay.fromDateTime(log.time).format(context));
+    }
     debugPrint('Saved meals: ${box.length}');
     if (mounted) Navigator.pop(context);
   }

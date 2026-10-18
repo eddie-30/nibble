@@ -4,6 +4,7 @@ import '../models/meal_log.dart';
 import '../theme.dart';
 import 'package:flutter/foundation.dart';
 import '../debug_data.dart';
+import '../notifications.dart';
 
 const _amber = Color(0xFFE6BC6A);
 const _redish = Color(0xFFC8553D);
@@ -292,7 +293,7 @@ class InsightsScreen extends StatelessWidget {
                       color: context.muted,
                     ),
                   ),
-                  Row(
+                  Wrap(
                     children: [
                       TextButton(
                         onPressed: loadSampleWeek,
@@ -301,6 +302,14 @@ class InsightsScreen extends StatelessWidget {
                       TextButton(
                         onPressed: () => Hive.box('meals').clear(),
                         child: const Text('Clear all meals'),
+                      ),
+                      TextButton(
+                        onPressed: () => showLateWarning('11:02 PM'),
+                        child: const Text('Test warning'),
+                      ),
+                      TextButton(
+                        onPressed: scheduleTest,
+                        child: const Text('Remind in 1 min'),
                       ),
                     ],
                   ),

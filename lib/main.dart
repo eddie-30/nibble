@@ -3,12 +3,17 @@ import 'package:hive_flutter/hive_flutter.dart';
 import 'models/meal_log.dart';
 import 'screens/home_shell.dart';
 import 'theme.dart';
+import 'notifications.dart';
 
 Future<void> main() async {
   await Hive.initFlutter();
   await Hive.openBox('meals');
   await Hive.openBox('settings');
+  await initNotifications();
+  await scheduleReminders();
+  Hive.box('meals').listenable().addListener(scheduleReminders);
   runApp(const NibbleApp());
+  requestNotificationPermission();
 }
 
 class NibbleApp extends StatelessWidget {
